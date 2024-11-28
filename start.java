@@ -4,10 +4,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import mypage.*;
 
 public class start extends JFrame{
 	private Container c = getContentPane();
-	private JButton button = new JButton("click_start");
+	private JButton button = new JButton("press to start");
 	start(LocalTime now){
 		super("First page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -15,8 +16,8 @@ public class start extends JFrame{
 		int hour = now.getHour();
 		
 		c.add(button);
-		button.setLocation(180,350);
-		button.setSize(100,30);
+		button.setLocation(160,370);
+		button.setSize(150,30);
 		
 		JLabel imageLabel = new JLabel();
 		imageLabel.setLocation(0,0);
@@ -30,13 +31,12 @@ public class start extends JFrame{
 		else if(hour > 11 && hour <= 17){
 			ImageIcon image = new ImageIcon("images/park.jpg");
             imageLabel.setIcon(image);
-            button.addMouseListener(new GoFirstMain());
 		}
 		else {
 			ImageIcon image = new ImageIcon("images/moon.jpeg");
             imageLabel.setIcon(image);
-            button.addMouseListener(new GoFirstMain());
 		}
+        button.addMouseListener(new GoFirstMain());
 		setSize(500,500);
 		setVisible(true);
 	}
@@ -53,14 +53,14 @@ public class start extends JFrame{
 	}
 	
 	
-	public class first_main extends JFrame{
+/*	public class first_main extends JFrame{
 		   private Container contentPane;
 		   public first_main() {
 		      super("main화면");
 		      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		      contentPane = getContentPane();
 		      createMenu();
-		      createToolBar();
+		      ButtomButton();
 		      setSize(400,400);
 		      setVisible(true);
 		   }
@@ -69,22 +69,20 @@ public class start extends JFrame{
 		      JMenu mainMenu = new JMenu("Screen");
 		      
 		   }
-		   private void createToolBar() {
-		      JToolBar toolBar = new JToolBar("Kitae Menu");
-		      toolBar.setBackground(Color.LIGHT_GRAY);
-		      String[] mainToolbar = {"이전 page로", "지금", "다음 page로"};
-		      for(int i=0;i<3;i++) {
-		         toolBar.add(new JButton(mainToolbar[i]));
-		         toolBar.addSeparator();
-		      }// 일단 추가로 해야할점 이 3개로 툴바를 가득차게 만들고 싶다. 
-		      
-		      contentPane.add(toolBar, BorderLayout.SOUTH);   
+		   private void ButtomButton() {
+			   JPanel ButtomButton = new JPanel(new GridLayout(1, 3));
+			   ButtomButton.add(new JButton("Previous Page"));
+			   ButtomButton.add(new JButton("Current Page"));
+			   ButtomButton.add(new JButton("Next Page"));
 		   }
 	}
+	*/
 	public static void main(String[] args) {
 		LocalTime now = LocalTime.now();       
 		System.out.println(now);  
 		int hour = now.getHour();
 		new start(now);
 	}
+	
+	
 }
