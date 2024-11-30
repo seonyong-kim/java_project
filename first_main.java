@@ -41,15 +41,15 @@ public class first_main extends JFrame{
        
        button2.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-    			 new previus();
-    	         setVisible(false);
+        	   new diary();
+    	       setVisible(false);
            }
        });
 
        button3.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-    			 new next_page();
-    	         setVisible(false);
+        	   new next_page();
+    	       setVisible(false);
            }
        });
        
