@@ -4,10 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import mypage.*;
 
 public class diary extends JFrame{
 	private Container c;
+	JTextArea todayDiary = new JTextArea();
 	diary(){
 		super("CurrentPage");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -15,8 +18,8 @@ public class diary extends JFrame{
 		c = getContentPane();
 		c.setLayout(new BorderLayout());
 		c.add(CurrentNorth(), BorderLayout.NORTH);
-		c.add(CurrentCenter(), BorderLayout.CENTER);
-//		c.add(CurrentSouth(), BorderLayout.SOUTH);\
+		c.add(todayDiary, BorderLayout.CENTER);
+		c.add(CurrentSouth(), BorderLayout.SOUTH);
 	    setSize(400,400);
 	    setVisible(true);
 	}
@@ -45,7 +48,7 @@ public class diary extends JFrame{
 				}
 			});
 			weatherMenu.add(weatherItem[i]); 
-		}
+		}//콤보박스있다.
 		diaryNorthMenu.add(weatherMenu);
 		
 				
@@ -95,10 +98,30 @@ public class diary extends JFrame{
 		
 		return diaryNorthBar;
 	}
-
-	private JTextArea CurrentCenter() {
-		JTextArea todayDiary = new JTextArea();
-		return todayDiary;
+	
+	private JPanel CurrentSouth() {		
+		JPanel diaryPanel = new JPanel();
+		JButton diaryPicture = new JButton("add picture");
+		JButton diarySave = new JButton("save");
+		diaryPanel.add(diaryPicture);
+		diaryPanel.add(diarySave);
+		diarySave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				File diary = new File("C:/Users/user/eclipse-workspace/java/images/diary.txt");
+				FileWriter writer = null;
+				String text = todayDiary.getText();
+				try {
+					writer = new FileWriter(diary); 
+					writer.write(text); 
+					writer.flush();
+					writer.close();
+					System.out.println("Completed"); // 성공하면 save문구 띄우기
+				} catch (IOException e1) {
+					e1.printStackTrace(); // 실패시 에러메시지를 출력한다.
+				} 
+			}
+		});
+		return diaryPanel;
 	}
 	
 	public static void main(String[] args) {

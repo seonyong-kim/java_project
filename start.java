@@ -52,37 +52,10 @@ public class start extends JFrame{
 	     public void mouseExited(MouseEvent e) {}
 	}
 	
-	
-/*	public class first_main extends JFrame{
-		   private Container contentPane;
-		   public first_main() {
-		      super("main화면");
-		      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		      contentPane = getContentPane();
-		      createMenu();
-		      ButtomButton();
-		      setSize(400,400);
-		      setVisible(true);
-		   }
-		   private void createMenu() {
-		      JMenuBar mainMenuBar = new JMenuBar();
-		      JMenu mainMenu = new JMenu("Screen");
-		      
-		   }
-		   private void ButtomButton() {
-			   JPanel ButtomButton = new JPanel(new GridLayout(1, 3));
-			   ButtomButton.add(new JButton("Previous Page"));
-			   ButtomButton.add(new JButton("Current Page"));
-			   ButtomButton.add(new JButton("Next Page"));
-		   }
-	}
-	*/
 	public static void main(String[] args) {
 		LocalTime now = LocalTime.now();       
 		System.out.println(now);  
 		int hour = now.getHour();
 		new start(now);
 	}
-	
-	
 }

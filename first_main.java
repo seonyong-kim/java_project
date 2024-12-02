@@ -7,7 +7,7 @@ public class first_main extends JFrame{
    private Container contentPane;
    private Mypanel panel = new Mypanel();
    public first_main() {
-      super("main화면");
+      super("main");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setContentPane(panel);
       contentPane = getContentPane();
