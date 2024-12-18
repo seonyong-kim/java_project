@@ -34,7 +34,7 @@ public class first_main extends JFrame{
        
        button1.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-  			 new previus();
+  			 new Calendar();
 	         setVisible(false);
            }
        });
