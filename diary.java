@@ -53,7 +53,7 @@ public class diary extends JFrame{
 	}
 	
 	private JScrollPane CurrentCenter() {
-		File path = new File("C:/Users/user/eclipse-workspace/java/images/" + Date + ".txt");
+		File path = new File("images/" + Date + ".txt");
 		int c;
 		String memory = "";
 		boolean skip = true;
@@ -114,7 +114,7 @@ public class diary extends JFrame{
 		String feelings = "feelings"; 
 		String event = "event";
 		System.out.println("Current_North");
-		File path = new File("C:/Users/user/eclipse-workspace/java/images/" + Date + "imo.txt");
+		File path = new File("images/" + Date + "imo.txt");
 		int b=0;
         if (path.exists()) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"))) {
@@ -224,8 +224,8 @@ public class diary extends JFrame{
 		
 		diarySave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				File diary = new File("C:/Users/user/eclipse-workspace/java/images/" + Date + ".txt");
-				File imoticon = new File("C:/Users/user/eclipse-workspace/java/images/" + Date + "imo" +".txt");
+				File diary = new File("images/" + Date + ".txt");
+				File imoticon = new File("images/" + Date + "imo" +".txt");
 				OutputStreamWriter writer, writer2; 
 				String text = Diary.getText();
 				try {
