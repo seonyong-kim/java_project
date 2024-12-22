@@ -14,7 +14,7 @@ public class Calendar extends JFrame{
 	private JPanel diaryDate = new JPanel(new GridLayout(0,7));
 	private int year, month, day;
 	private int todayYear, todayMonth;
-	private JButton[] lbl;
+	private JButton[] dayButton;
 	
 	Calendar(){
 		super("Calendar");
@@ -116,36 +116,50 @@ public class Calendar extends JFrame{
         for (int i = 0; i < firstDay -1 ; i++) {
         	diaryDate.add(new JLabel(" "));
         }
-        lbl = new JButton[lastDay];
+        dayButton = new JButton[lastDay];
 		for (day = 1; day <= lastDay; day++) {
 			final int selectedDay = day;
 			if(month == todayMonth && day > LocalDate.now().getDayOfMonth()) {
-				lbl[day-1] = new JButton(String.valueOf(day));
-				lbl[day-1].addActionListener(new ActionListener() {
+				dayButton[day-1] = new JButton(String.valueOf(day));
+				dayButton[day-1].addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						JOptionPane.showMessageDialog(null, " Sorry, It's a future, you can open a time capsule that day", "Message", JOptionPane. ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Sorry, It's a future, you can open a time capsule that day", "Message", JOptionPane.ERROR_MESSAGE );
 					}
 				});		
+				
 				File path = new File("images/" + year + "-" + month + "-" + day + ".txt");
 				if(path.exists()) {
-			        lbl[day - 1].setForeground(Color.GREEN);
+					dayButton[day - 1].setForeground(Color.GREEN);
 				}
 			}
-			else {
-				lbl[day-1] = new JButton(String.valueOf(day));
-				lbl[day-1].addActionListener(new ActionListener() {
+			else if(month == todayMonth && day == LocalDate.now().getDayOfMonth()) {
+				dayButton[day-1] = new JButton(String.valueOf(day));
+				dayButton[day-1].addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null, "Let's move on to today's diary.", "Message", JOptionPane.INFORMATION_MESSAGE);
 						new Diary(String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(selectedDay));
 					}
 				});
+				
+				dayButton[day - 1].setForeground(Color.ORANGE);
+			}
+			else {
+				dayButton[day-1] = new JButton(String.valueOf(day));
+				dayButton[day-1].addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null, "Let's move on to " + String.valueOf(year) + "-" + String.valueOf(month) + "-" +
+					String.valueOf(selectedDay) +" diary.", "Message", JOptionPane.INFORMATION_MESSAGE);
+						new Diary(String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(selectedDay));
+					}
+				});
+				
 				File path = new File("images/" + year + "-" + month + "-" + day + ".txt");
 				if(path.exists()) {
-			        lbl[day - 1].setForeground(Color.BLUE);
+					dayButton[day - 1].setForeground(Color.BLUE);
 				}
 			}
-			lbl[day-1].setContentAreaFilled(false);  // 버튼의 내용 영역 비우기
-			
-			diaryDate.add(lbl[day-1]);
+			dayButton[day-1].setContentAreaFilled(false);  
+			diaryDate.add(dayButton[day-1]);
 		}
 		diaryDate.revalidate();
 		diaryDate.repaint();

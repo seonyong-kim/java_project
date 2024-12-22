@@ -38,12 +38,11 @@ public class Diary extends JFrame{
 		super("previus Diary");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-		Calendar choiceDate = new Calendar();
 		Date = calendarDate;
 		
 		container = getContentPane();
 		container.setLayout(new BorderLayout());
-		container.add(PreviusNorth(), BorderLayout.NORTH);
+		container.add(PreviusNorth(calendarDate), BorderLayout.NORTH);
 		container.add(CurrentCenter(), BorderLayout.CENTER);
 		container.add(CurrentSouth(), BorderLayout.SOUTH);
 		
@@ -79,30 +78,30 @@ public class Diary extends JFrame{
 		}
 	}
 	
-	private JToolBar PreviusNorth() {
+	private JToolBar PreviusNorth(String calendarDate) {
 		JToolBar previusDiaryToolBar = new JToolBar();
 		previusDiaryToolBar = CurrentNorth();
-		
 		JToolBar previusDiaryToolBarEast = new JToolBar();
+		
+		JLabel label;
+		if(calendarDate.equals(today.format(formatter))) {
+			label = new JLabel("Today");
+		}
+		else {
+			label = new JLabel("memory");
+		}
+		previusDiaryToolBarEast.add(label);
+		previusDiaryToolBarEast.addSeparator();
+		
 		back =  new JButton("back");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 new Calendar();
 		         setVisible(false);
 			}
 		});
 		previusDiaryToolBarEast.add(back);
 		
-		JButton main = new JButton("main");
-		main.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 new FirstMain();
-		         setVisible(false);
-			}
-		});
-		previusDiaryToolBarEast.add(main);
 		previusDiaryToolBar.add(previusDiaryToolBarEast, BorderLayout.EAST);
-		
 		return previusDiaryToolBar;
 	}
 

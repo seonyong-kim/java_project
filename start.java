@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.time.LocalTime;
 
 public class Start extends JFrame{
-	
 	private Container container = getContentPane();
 	private JButton button = new JButton("press to start");
 	
@@ -14,8 +13,8 @@ public class Start extends JFrame{
 		super("First Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setResizable(false);
+	    
 		container.setLayout(null);
-		
 		container.add(button);
 		button.setLocation(160,370);
 		button.setSize(150,30);
@@ -39,8 +38,9 @@ public class Start extends JFrame{
 			image = new ImageIcon("images/moon.jpeg");
             imageLabel.setIcon(image);
 		}
+		
         button.addMouseListener(new GoFirstMain());
-		setSize(500,500);
+		setSize(480,500);
 		setVisible(true);
 	}
 	

@@ -11,12 +11,16 @@ public class FirstMain extends JFrame{
    public FirstMain() {
       super("main");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
       panel = new Mypanel();
       setContentPane(panel);
       contentPane = getContentPane();
 	  contentPane.setLayout(new BorderLayout(10,10));
+	  
 	  contentPane.add(ButtomBar(), BorderLayout.SOUTH);
+
       setSize(500,500);
+	  setResizable(false);
       setVisible(true);
    }
    
