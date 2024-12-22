@@ -1,17 +1,14 @@
 package mypage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import mypage.*;
-import java.util.Scanner;
 
-public class diary extends JFrame{
-	private Container c;
+public class Diary extends JFrame{
+	private Container container;
 	private JTextArea Diary = new JTextArea();
 	private JScrollPane DiaryScroll = new JScrollPane(Diary);
 	private LocalDate today = LocalDate.now();
@@ -20,32 +17,36 @@ public class diary extends JFrame{
 	private String weatherString = "", feelingsString = "", eventString = "";
 	private JPanel diaryPanel = new JPanel();
 	private JButton back;
-	private boolean current = true;
 	
-	diary(){
+	Diary(){
 		super("CurrentPage");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		c = getContentPane();
-		c.setLayout(new BorderLayout());
-		c.add(CurrentNorth(), BorderLayout.NORTH);		
-		c.add(CurrentCenter(), BorderLayout.CENTER);
-		c.add(CurrentSouth(), BorderLayout.SOUTH);
+		
+		container = getContentPane();
+		container.setLayout(new BorderLayout());
+		container.add(CurrentNorth(), BorderLayout.NORTH);		
+		container.add(CurrentCenter(), BorderLayout.CENTER);
+		container.add(CurrentSouth(), BorderLayout.SOUTH);
+		
 		Diary.setLineWrap(true);
 	    setSize(400,500);
 	    setResizable(false);
 	    setVisible(true);
 	}
 	
-	diary(String calendarDate){
+	Diary(String calendarDate){
 		super("previus Diary");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
 		Calendar choiceDate = new Calendar();
 		Date = calendarDate;
-		c = getContentPane();
-		c.setLayout(new BorderLayout());
-		c.add(PreviusNorth(), BorderLayout.NORTH);
-		c.add(CurrentCenter(), BorderLayout.CENTER);
-		c.add(CurrentSouth(), BorderLayout.SOUTH);
+		
+		container = getContentPane();
+		container.setLayout(new BorderLayout());
+		container.add(PreviusNorth(), BorderLayout.NORTH);
+		container.add(CurrentCenter(), BorderLayout.CENTER);
+		container.add(CurrentSouth(), BorderLayout.SOUTH);
+		
 		Diary.setLineWrap(true);
 	    setSize(400,500);
 	    setResizable(false);
@@ -56,10 +57,9 @@ public class diary extends JFrame{
 		File path = new File("images/" + Date + ".txt");
 		int c;
 		String memory = "";
-		boolean skip = true;
 		if(path.exists()) {
 			try {
-				 FileInputStream today = new  FileInputStream (path);
+				 FileInputStream today = new FileInputStream(path);
 				 InputStreamReader reader = new InputStreamReader(today, "UTF-8"); 
 				 while ((c = reader.read()) != -1) { 
 					 memory += (char)c;
@@ -75,16 +75,15 @@ public class diary extends JFrame{
 				return DiaryScroll;
 			}
 		}else {
-			 System.out.println("Completed1");
 			return DiaryScroll;
 		}
 	}
 	
 	private JToolBar PreviusNorth() {
-		current = false;
-		JToolBar previusDiaryBar = new JToolBar();
-		previusDiaryBar = CurrentNorth();
+		JToolBar previusDiaryToolBar = new JToolBar();
+		previusDiaryToolBar = CurrentNorth();
 		
+		JToolBar previusDiaryToolBarEast = new JToolBar();
 		back =  new JButton("back");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,30 +91,32 @@ public class diary extends JFrame{
 		         setVisible(false);
 			}
 		});
-		previusDiaryBar.add(back);
+		previusDiaryToolBarEast.add(back);
 		
 		JButton main = new JButton("main");
 		main.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 new first_main();
+				 new FirstMain();
 		         setVisible(false);
 			}
 		});
-		previusDiaryBar.add(main);
+		previusDiaryToolBarEast.add(main);
+		previusDiaryToolBar.add(previusDiaryToolBarEast, BorderLayout.EAST);
 		
-		return previusDiaryBar;
+		return previusDiaryToolBar;
 	}
-	
+
 	private JToolBar CurrentNorth() {
-		JToolBar diaryNorthBar = new JToolBar();
-		diaryNorthBar.add(new JLabel(Date));
+		JToolBar diaryNorthToolBar = new JToolBar();
+		diaryNorthToolBar.setLayout(new BorderLayout());
+		diaryNorthToolBar.add(new JLabel(Date),BorderLayout.WEST);
+		
 		JMenuBar diaryNorthMenu = new JMenuBar();
 		String weather = "weather"; 
 		String feelings = "feelings"; 
 		String event = "event";
-		System.out.println("Current_North");
+		
 		File path = new File("images/" + Date + "imo.txt");
-		int b=0;
         if (path.exists()) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"))) {
                 String line = reader.readLine(); // 첫 번째 줄 읽기
@@ -144,13 +145,14 @@ public class diary extends JFrame{
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	
             }
         }
+        
 		JMenu weatherMenu = new JMenu(weather);
 		JMenuItem[] weatherItem= new JMenuItem[5];
 		String[] weatherTitle = {"Sunny", "Rainny", "Cloudy", "Snowy", "stormy"};
-		for(int i=0;i<4;i++) {
+		for(int i=0;i<weatherTitle.length;i++) {
 			weatherItem[i] = new JMenuItem(weatherTitle[i]); 
 			weatherItem[i].addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
@@ -160,15 +162,13 @@ public class diary extends JFrame{
 				}
 			});
 			weatherMenu.add(weatherItem[i]); 
-		}//콤보박스있다.
+		}
 		diaryNorthMenu.add(weatherMenu);
-		System.out.println(weather); 
 				
 		JMenu feelingsMenu = new JMenu(feelings);
 		JMenuItem[] feelingsItem= new JMenuItem[6];
 		String[] feelingsTitle = {"happy", "excited", "Serenity", "sad", "angry", "tired"};
-		
-		for(int i=0;i<4;i++) {
+		for(int i=0;i<feelingsTitle.length;i++) {
 			feelingsItem[i] = new JMenuItem(feelingsTitle[i]); 
 			feelingsItem[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -180,13 +180,11 @@ public class diary extends JFrame{
 			feelingsMenu.add(feelingsItem[i]); 
 		}
 		diaryNorthMenu.add(feelingsMenu);
-		diaryNorthBar.add(diaryNorthMenu);
 		
-
 		JMenu eventMenu = new JMenu(event);
 		JMenuItem[] eventItem= new JMenuItem[6];
 		String[] eventTitle = {"travel", "familly", "test", "festival", "sad_thing","nothing"};
-		for(int i=0;i<5;i++) {
+		for(int i=0;i<eventTitle.length;i++) {
 			eventItem[i] = new JMenuItem(eventTitle[i]); 
 			eventItem[i].addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
@@ -198,30 +196,23 @@ public class diary extends JFrame{
 			eventMenu.add(eventItem[i]); 
 		}
 		diaryNorthMenu.add(eventMenu);
+		diaryNorthToolBar.add(diaryNorthMenu,BorderLayout.CENTER);
 		
-		JLabel blank = new JLabel("                    ");
-		diaryNorthBar.add(blank);
+		back = new JButton("back");
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new FirstMain();
+				setVisible(false);
+			}
+		});
+		diaryNorthToolBar.add(back,BorderLayout.EAST);
 		
-		if(current) {
-			back = new JButton("back");
-			back.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					new first_main();
-					setVisible(false);
-				}
-			});
-			diaryNorthBar.add(back);
-		}
-		
-		return diaryNorthBar;
+		return diaryNorthToolBar;
 	}
-
+	
 	private JPanel CurrentSouth() {		
 		JButton diarySave = new JButton("save");
-		
-		ImageIcon icon = new ImageIcon("images/gray.png");
 		diaryPanel.add(diarySave);
-		
 		diarySave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File diary = new File("images/" + Date + ".txt");
@@ -230,19 +221,21 @@ public class diary extends JFrame{
 				String text = Diary.getText();
 				try {
 					FileOutputStream fos = new FileOutputStream(diary);
-					FileOutputStream fos2 = new FileOutputStream(imoticon);
 					writer = new OutputStreamWriter(fos, "UTF-8"); 
-					writer2 = new OutputStreamWriter(fos2, "UTF-8");
-					writer2.write(getweatherImoticon() + " " + getfeelingsImoticon() + " " + geteventImoticon() + "\n");
 					writer.write(text); 
 					writer.flush();
 					writer.close();
+					
+					FileOutputStream fos2 = new FileOutputStream(imoticon);
+					writer2 = new OutputStreamWriter(fos2, "UTF-8");
+					writer2.write(getweatherImoticon() + " " + getfeelingsImoticon() 
+					+ " " + geteventImoticon() + "\n");
 					writer2.flush();
 					writer2.close();
-					System.out.println("Completed"); // 성공하면 save문구 띄우기
 				} catch (IOException e1) {
-					e1.printStackTrace(); // 실패시 에러메시지를 출력한다.
+
 				} 
+				JOptionPane.showMessageDialog(null, "Your today diary has been saved.", "Message", JOptionPane. INFORMATION_MESSAGE);
 			}
 		});
 		return diaryPanel;
@@ -251,14 +244,17 @@ public class diary extends JFrame{
 	public String getweatherImoticon() {
 		return weatherString;
 	}
+	
 	public String getfeelingsImoticon() {
 		return feelingsString;
 	}
+	
 	public String geteventImoticon() {
 		return eventString;
 	}
 	
 	public static void main(String[] args) {
-	    new diary();
+	    new Diary();
 	}
+	
 }

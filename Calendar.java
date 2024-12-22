@@ -3,10 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import mypage.*;
-
+import java.io.File;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Calendar extends JFrame{
 	private JPanel calendarNorth = new JPanel();
@@ -20,7 +18,6 @@ public class Calendar extends JFrame{
 	
 	Calendar(){
 		super("Calendar");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		LocalDate TodayDate = LocalDate.now();
 		year = TodayDate.getYear(); todayYear = year;
@@ -63,7 +60,7 @@ public class Calendar extends JFrame{
 				if(month > 1) {
 					month--;
 					System.out.println(month);
-					diaryMonth.setText(String.valueOf(month)); //JLabel 변경하기 참고
+					diaryMonth.setText(String.valueOf(month));
 					dateChange();
 				}
 				else {
@@ -79,8 +76,8 @@ public class Calendar extends JFrame{
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(year == todayYear && todayMonth == month) {
-					 new next_page();
-			         setVisible(false);
+					 new NextPage();
+					 dispose();
 				}
 				else{
 					if(month <= 11) {
@@ -101,8 +98,8 @@ public class Calendar extends JFrame{
 		
 		goMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new first_main();
-    			setVisible(false);
+				new FirstMain();
+				dispose();
 			}
 		});
 		
@@ -122,19 +119,36 @@ public class Calendar extends JFrame{
         lbl = new JButton[lastDay];
 		for (day = 1; day <= lastDay; day++) {
 			final int selectedDay = day;
-			lbl[day-1] = new JButton(String.valueOf(day));
-			lbl[day-1].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-	    			new diary(String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(selectedDay));
-	    			setVisible(false);
-	    	        return ;
+			if(month == todayMonth && day > LocalDate.now().getDayOfMonth()) {
+				lbl[day-1] = new JButton(String.valueOf(day));
+				lbl[day-1].addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null, " Sorry, It's a future, you can open a time capsule that day", "Message", JOptionPane. ERROR_MESSAGE);
+					}
+				});		
+				File path = new File("images/" + year + "-" + month + "-" + day + ".txt");
+				if(path.exists()) {
+			        lbl[day - 1].setForeground(Color.GREEN);
 				}
-			});
+			}
+			else {
+				lbl[day-1] = new JButton(String.valueOf(day));
+				lbl[day-1].addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new Diary(String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(selectedDay));
+					}
+				});
+				File path = new File("images/" + year + "-" + month + "-" + day + ".txt");
+				if(path.exists()) {
+			        lbl[day - 1].setForeground(Color.BLUE);
+				}
+			}
+			lbl[day-1].setContentAreaFilled(false);  // 버튼의 내용 영역 비우기
+			
 			diaryDate.add(lbl[day-1]);
 		}
 		diaryDate.revalidate();
 		diaryDate.repaint();
-		setVisible(true);
 	}
 	
 	public static void main(String[] args) {

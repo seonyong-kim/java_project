@@ -30,7 +30,7 @@ public class previus extends JFrame{
         
         button2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-     			 new first_main();
+     			 new FirstMain();
     	         setVisible(false);
         	}
         });

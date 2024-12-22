@@ -152,7 +152,7 @@ public class PreviusDiary extends JFrame{
 		JButton back = new JButton("back");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 new first_main();
+				 new FirstMain();
 		         setVisible(false);
 			}
 		});
