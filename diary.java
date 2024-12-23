@@ -117,10 +117,11 @@ public class Diary extends JFrame{
 		
 		File path = new File("images/" + Date + "imo.txt");
         if (path.exists()) {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"))) {
-                String line = reader.readLine(); // 첫 번째 줄 읽기
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader
+            		(new FileInputStream(path), "UTF-8"))) {
+                String line = reader.readLine(); 
                 if (line != null) {
-                    String[] parts = line.split(" ", 3); // 공백 기준으로 나누기
+                    String[] parts = line.split(" ", 3); 
                     if (parts.length > 0) {
                     	weather = parts[0];
                     	weatherString = weather;
@@ -144,7 +145,8 @@ public class Diary extends JFrame{
                     }
                 }
             } catch (IOException e) {
-            	
+				JOptionPane.showMessageDialog(null, "An error has occurred", "Message", 
+						JOptionPane. ERROR_MESSAGE);
             }
         }
         
@@ -232,9 +234,11 @@ public class Diary extends JFrame{
 					writer2.flush();
 					writer2.close();
 				} catch (IOException e1) {
-
+					JOptionPane.showMessageDialog(null, "An error has occurred", "Message", 
+							JOptionPane. ERROR_MESSAGE);
 				} 
-				JOptionPane.showMessageDialog(null, "Your today diary has been saved.", "Message", JOptionPane. INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Your " + Date + " diary has been saved.", "Message", 
+						JOptionPane. INFORMATION_MESSAGE);
 			}
 		});
 		return diaryPanel;

@@ -40,15 +40,15 @@ public class NextPage extends JFrame{
 		JToolBar notrhPanelButton = new JToolBar();
 		notrhPanelButton.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
-		JButton previus = new JButton("previus");
+		JButton previous = new JButton("previous");
 
-		previus.addActionListener(new ActionListener() {
+		previous.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Calendar();
 		        setVisible(false);
 			}
 		});
-		previus.setPreferredSize(new Dimension(70, 40));
+		previous.setPreferredSize(new Dimension(70, 40));
 		
 		JButton main = new JButton("main");
 		main.addActionListener(new ActionListener() {
@@ -68,28 +68,33 @@ public class NextPage extends JFrame{
 				OutputStreamWriter writer; 
 				JTextArea textArea = (JTextArea) diaryScroll.getViewport().getView();
 				String text = textArea.getText();
-
-				try {
-					FileOutputStream fos = new FileOutputStream(diary);
-					writer = new OutputStreamWriter(fos, "UTF-8"); 
-					writer.write(text); 
-					writer.flush();
-					writer.close();
-					
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} 
-				JOptionPane.showMessageDialog(null, "Your time capsule has been saved.", "Message", JOptionPane. INFORMATION_MESSAGE);
+				if(GetDday() >0) {
+					try {
+						FileOutputStream fos = new FileOutputStream(diary);
+						writer = new OutputStreamWriter(fos, "UTF-8"); 
+						writer.write(text); 
+						writer.flush();
+						writer.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} 
+					JOptionPane.showMessageDialog(null, "Your time capsule has been saved.", 
+							"Message", JOptionPane. INFORMATION_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "This is not a future date.", 
+							"Message", JOptionPane. ERROR_MESSAGE);
+				}
 			}
 		});
 		save.setPreferredSize(new Dimension(70, 40));
 		
 		notrhPanelButton.add(save);
-		notrhPanelButton.add(previus);
+		notrhPanelButton.add(previous);
 		notrhPanelButton.add(main);
 		notrhPanelButton.setFloatable(false);
 		
-		JPanel notrhPanelText = new JPanel(new GridLayout(2, 1, 5, 5));
+		JPanel notrhPanelText = new JPanel(new GridLayout(1, 1, 5, 5));
 		JLabel frameNorth = new JLabel("Time Capsule", SwingConstants.CENTER);
 		notrhPanelText.add(frameNorth);
 		
@@ -103,9 +108,9 @@ public class NextPage extends JFrame{
 		JPanel centerFrmae = new JPanel(new GridLayout(3, 1, 5, 5));
 		JPanel datePanel = new JPanel(new GridLayout(1, 3, 5, 5));
 		
-		yearText = new JTextField("2025");  
-		monthText = new JTextField("5");  
-		dayText = new JTextField("5");
+		yearText = new JTextField(String.valueOf(today.getYear()));  
+		monthText = new JTextField(String.valueOf(today.getMonthValue()));  
+		dayText = new JTextField(String.valueOf(today.getDayOfMonth()));
 		datePanel.add(yearText);
 		datePanel.add(monthText);
 		datePanel.add(dayText);
@@ -117,7 +122,8 @@ public class NextPage extends JFrame{
 		Calculation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(GetDday() < 0) {
-					JOptionPane.showMessageDialog(null, "The value entered is before today's date.", "Message", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The value entered is before today's date.", 
+							"Message", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
 					Dday.setText("D-day : " + String.valueOf(GetDday()));
