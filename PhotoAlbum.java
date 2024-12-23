@@ -3,13 +3,12 @@ package mypage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 
 public class PhotoAlbum extends JFrame{
 	private Container container;
 	
 	PhotoAlbum(){
-		super("Calendar");
+		super("PhotoAlbum");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         container = getContentPane();
